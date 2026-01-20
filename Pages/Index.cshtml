@@ -1,0 +1,82 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold text-primary">
+            <i class="bi bi-building"></i> Sistema de Gestión
+        </h1>
+        <h2 class="display-6 text-secondary">Clientes y Contactos</h2>
+        <p class="lead mt-3">Administra tus clientes y sus contactos de manera eficiente y profesional</p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-md-5">
+            <div class="card h-100 shadow-lg border-0 hover-card">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-people-fill text-primary" style="font-size: 5rem;"></i>
+                    </div>
+                    <h3 class="card-title mb-3">Gestión de Clientes</h3>
+                    <p class="card-text text-muted mb-4">
+                        Administra toda la información de tus clientes: datos de contacto, direcciones y seguimiento completo de cada cliente.
+                    </p>
+                    <ul class="list-unstyled text-start mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Crear y editar clientes</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Búsqueda avanzada</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Filtros personalizados</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Ordenamiento flexible</li>
+                    </ul>
+                    <a asp-page="/Clientes/Index" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Ir a Clientes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card h-100 shadow-lg border-0 hover-card">
+                <div class="card-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="bi bi-person-lines-fill text-success" style="font-size: 5rem;"></i>
+                    </div>
+                    <h3 class="card-title mb-3">Gestión de Contactos</h3>
+                    <p class="card-text text-muted mb-4">
+                        Mantén organizada toda la información de contactos asociados a cada cliente para una comunicación efectiva.
+                    </p>
+                    <ul class="list-unstyled text-start mb-4">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Múltiples contactos por cliente</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Búsqueda instantánea</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Gestión simplificada</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success"></i> Vista detallada</li>
+                    </ul>
+                    <a asp-page="/Contactos/Index" class="btn btn-success btn-lg w-100">
+                        <i class="bi bi-arrow-right-circle"></i> Ir a Contactos
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .hover-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,.175) !important;
+        }
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+    </style>
+}
+
+

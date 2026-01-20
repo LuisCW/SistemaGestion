@@ -1,0 +1,31 @@
+@page
+@model CustomersClients.Pages.Contactos.DeleteModel
+@{
+    ViewData["Title"] = "Eliminar Contacto";
+}
+
+<h1>Eliminar Contacto</h1>
+
+<h3>¿Está seguro que desea eliminar este contacto?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">Nombre Completo</dt>
+        <dd class="col-sm-9">@Model.Contacto.NombreCompleto</dd>
+        
+        <dt class="col-sm-3">Dirección</dt>
+        <dd class="col-sm-9">@Model.Contacto.Direccion</dd>
+        
+        <dt class="col-sm-3">Teléfono</dt>
+        <dd class="col-sm-9">@Model.Contacto.Telefono</dd>
+        
+        <dt class="col-sm-3">Cliente</dt>
+        <dd class="col-sm-9">@Model.Contacto.Cliente?.NombreCompleto</dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Contacto.Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" />
+        <a asp-page="./Index" class="btn btn-secondary">Volver</a>
+    </form>
+</div>

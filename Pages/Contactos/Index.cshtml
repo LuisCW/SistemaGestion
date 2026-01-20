@@ -1,0 +1,188 @@
+@page
+@model CustomersClients.Pages.Contactos.IndexModel
+@{
+    ViewData["Title"] = "Contactos";
+}
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1><i class="bi bi-person-lines-fill"></i> Administración de Contactos</h1>
+            @if (Model.ClienteId.HasValue)
+            {
+                <p class="lead">Cliente: <strong>@Model.ClienteNombre</strong></p>
+            }
+        </div>
+        <div class="col-md-4 text-end">
+            @if (Model.ClienteId.HasValue)
+            {
+                <a asp-page="Create" asp-route-clienteId="@Model.ClienteId" class="btn btn-success btn-lg">
+                    <i class="bi bi-plus-circle"></i> Nuevo Contacto
+                </a>
+                <a asp-page="../Clientes/Details" asp-route-id="@Model.ClienteId" class="btn btn-secondary btn-lg">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+            }
+            else
+            {
+                <a asp-page="../Clientes/Index" class="btn btn-primary btn-lg">
+                    <i class="bi bi-people"></i> Ver Clientes
+                </a>
+            }
+        </div>
+    </div>
+
+    @if (!Model.ClienteId.HasValue)
+    {
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card text-center bg-primary text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Contactos</h5>
+                        <h2 class="display-4">@Model.TotalContactos</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center bg-success text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Resultados</h5>
+                        <h2 class="display-4">@Model.Contactos.Count</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card text-center bg-info text-white">
+                    <div class="card-body">
+                        <h5 class="card-title">Clientes Únicos</h5>
+                        <h2 class="display-4">@Model.Contactos.Select(c => c.ClienteId).Distinct().Count()</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="card shadow mb-4">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0"><i class="bi bi-search"></i> Búsqueda y Filtros</h5>
+        </div>
+        <div class="card-body">
+            <form method="get">
+                @if (Model.ClienteId.HasValue)
+                {
+                    <input type="hidden" name="clienteId" value="@Model.ClienteId" />
+                }
+                <div class="row g-3">
+                    <div class="col-md-10">
+                        <label class="form-label">Buscar</label>
+                        <input type="text" asp-for="SearchString" class="form-control" placeholder="Nombre, dirección, teléfono o cliente..." />
+                    </div>
+                    
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+                
+                @if (!string.IsNullOrEmpty(Model.SearchString))
+                {
+                    <div class="mt-3">
+                        <a asp-page="./Index" asp-route-clienteId="@Model.ClienteId" class="btn btn-secondary btn-sm">
+                            <i class="bi bi-x-circle"></i> Limpiar Búsqueda
+                        </a>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>
+                                <a asp-page="./Index" 
+                                   asp-route-sortOrder="@Model.NombreSort" 
+                                   asp-route-searchString="@Model.SearchString"
+                                   asp-route-clienteId="@Model.ClienteId"
+                                   class="text-white text-decoration-none">
+                                    Nombre Completo <i class="bi bi-arrow-down-up"></i>
+                                </a>
+                            </th>
+                            <th>Dirección</th>
+                            <th>Teléfono</th>
+                            @if (!Model.ClienteId.HasValue)
+                            {
+                                <th>
+                                    <a asp-page="./Index" 
+                                       asp-route-sortOrder="@Model.ClienteSort" 
+                                       asp-route-searchString="@Model.SearchString"
+                                       class="text-white text-decoration-none">
+                                        Cliente <i class="bi bi-arrow-down-up"></i>
+                                    </a>
+                                </th>
+                            }
+                            <th class="text-center" style="width: 150px;">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Contactos.Any())
+                        {
+                            <tr>
+                                <td colspan="@(Model.ClienteId.HasValue ? "4" : "5")" class="text-center text-muted py-5">
+                                    <i class="bi bi-inbox" style="font-size: 3rem;"></i>
+                                    <p class="mt-2">No se encontraron contactos</p>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model.Contactos)
+                            {
+                                <tr>
+                                    <td><strong>@item.NombreCompleto</strong></td>
+                                    <td>@item.Direccion</td>
+                                    <td><i class="bi bi-telephone"></i> @item.Telefono</td>
+                                    @if (!Model.ClienteId.HasValue)
+                                    {
+                                        <td>
+                                            <a asp-page="../Clientes/Details" asp-route-id="@item.ClienteId" class="text-decoration-none">
+                                                <i class="bi bi-building"></i> @item.Cliente?.NombreCompleto
+                                            </a>
+                                        </td>
+                                    }
+                                    <td class="text-center">
+                                        <div class="btn-group" role="group">
+                                            <a asp-page="./Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-warning" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <a asp-page="./Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <style>
+        .card {
+            border-radius: 10px;
+        }
+        .table thead th {
+            border-bottom: 2px solid #dee2e6;
+        }
+    </style>
+}
+

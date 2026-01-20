@@ -1,18 +1,27 @@
 # Sistema de Gestión de Clientes y Contactos
 
-Aplicación web ASP.NET Core 10.0 con Razor Pages, Entity Framework Core y SQL Server para administración de clientes y contactos.
+Aplicación web ASP.NET Core 10.0 con Razor Pages, Entity Framework Core y SQL Server.
 
 ---
 
-## ?? Inicio Rápido con Docker
+## ?? Inicio Rápido
 
 ```bash
+# 1. Clonar repositorio
 git clone https://github.com/LuisCW/SistemaGestion.git
 cd SistemaGestion
-docker-compose up -d
+
+# 2. Configurar base de datos en appsettings.json
+# (Ver sección de instalación abajo)
+
+# 3. Aplicar migraciones
+dotnet ef database update
+
+# 4. Ejecutar
+dotnet run
 ```
 
-Abre: http://localhost:8080
+Abre: https://localhost:7000
 
 ---
 
@@ -122,26 +131,47 @@ COMMIT TRANSACTION;
 - ? Ordenamiento: por nombre de contacto o cliente
 - ? Vista global y filtrada por cliente
 
-### Instalación Local:
+### Instalación:
 
+**Requisitos:**
+- .NET SDK 10.0 o superior
+- SQL Server (Express, Developer o Enterprise)
+
+**Pasos:**
+
+1. **Clonar repositorio**
 ```bash
-# 1. Clonar repositorio
 git clone https://github.com/LuisCW/SistemaGestion.git
 cd SistemaGestion
+```
 
-# 2. Configurar base de datos (appsettings.json)
-"ConnectionStrings": {
-  "DefaultConnection": "Server=localhost;Database=ClientesContactosDB;Integrated Security=True;TrustServerCertificate=True"
+2. **Configurar base de datos**
+
+Edita `appsettings.json`:
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Database=ClientesContactosDB;Integrated Security=True;TrustServerCertificate=True"
+  }
 }
+```
 
-# 3. Aplicar migraciones
+3. **Aplicar migraciones**
+```bash
 dotnet ef database update
+```
 
-# 4. Ejecutar
+O usar el script PowerShell:
+```powershell
+.\Scripts\CrearBaseDatos.ps1
+```
+
+4. **Ejecutar**
+```bash
 dotnet run
 ```
 
-Abre: https://localhost:7000
+**Abre:** https://localhost:7000
 
 ---
 
@@ -183,6 +213,11 @@ Abre: https://localhost:7000
 
 **PowerShell:**
 ```powershell
+.\Scripts\TestAPI.ps1
+```
+
+O manualmente:
+```powershell
 $body = @{
     clienteId = 1
     nombreCompleto = "Carlos Rodríguez"
@@ -212,7 +247,6 @@ curl -X POST http://localhost:5000/api/contactos/CrearContacto \
 - **Entity Framework Core 9.0** - ORM
 - **SQL Server** - Base de datos
 - **Bootstrap 5** - UI Framework
-- **Docker** - Containerización
 
 ---
 
@@ -243,22 +277,9 @@ CREATE INDEX IX_Clientes_FechaCreacion ON Clientes(FechaCreacion);
 
 ---
 
-## ?? Docker Hub
-
-**Imagen:** `luiscw/sistemagestion:latest`
-
-**Uso:**
-```bash
-docker pull luiscw/sistemagestion:latest
-docker-compose up -d
-```
-
----
-
 ## ?? Enlaces
 
 - **GitHub:** https://github.com/LuisCW/SistemaGestion
-- **Docker Hub:** https://hub.docker.com/r/luiscw/sistemagestion
 
 ---
 
